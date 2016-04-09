@@ -570,8 +570,10 @@ public class Wechat extends CordovaPlugin {
 	 * 调用微信支付
 	 */
 	public boolean weixinPay(CordovaArgs args, final CallbackContext callbackContext) throws JSONException {
+		Log.d(TAG, "WeixinPay start.");
 		currentCallbackContext = callbackContext;
 		initpay(args.getJSONObject(0), callbackContext);
+		Log.d(TAG, "WeixinPay end.");
 		return true;
 	}
 
@@ -579,13 +581,17 @@ public class Wechat extends CordovaPlugin {
 	 * 初始化微信支付
 	 */
 	private void initpay(JSONObject json, final CallbackContext callbackContext) {
+		Log.d(TAG, "initpay start.");
 		req = new PayReq();
 		sb = new StringBuffer();
 		GetPrepayIdTask getPrepayId = new GetPrepayIdTask();
 		getPrepayId.execute(json);
+		Log.d(TAG, "initpay end.");
 	}
 
 	private void genPayReq(final CallbackContext callbackContext) {
+
+		Log.d(TAG, "genPayReq start.");
 
 		req.appId = WEIXIN_APP_ID;
 		req.partnerId = WEIXIN_MCH_ID;
@@ -609,9 +615,12 @@ public class Wechat extends CordovaPlugin {
 		wxAPI.registerApp(WEIXIN_APP_ID);
 		wxAPI.sendReq(req);
 
+		Log.d(TAG, "genPayReq end.");
+
 	}
 
 	private String genAppSign(List<NameValuePair> params, final CallbackContext callbackContext) {
+		Log.d(TAG, "genAppSign start.");
 		StringBuilder sb = new StringBuilder();
 
 		for (int i = 0; i < params.size(); i++) {
@@ -625,7 +634,8 @@ public class Wechat extends CordovaPlugin {
 
 		this.sb.append("sign str\n" + sb.toString() + "\n\n");
 		String appSign = MD5.getMessageDigest(sb.toString().getBytes()).toUpperCase();
-		Log.e("orion", appSign);
+		Log.d(TAG, appSign);
+		Log.d(TAG, "genAppSign end.");
 		return appSign;
 	}
 
@@ -637,10 +647,11 @@ public class Wechat extends CordovaPlugin {
 
 		@Override
 		protected void onPostExecute(Map<String, String> result) {
+			Log.d(TAG, "GetPrepayIdTask.onPostExecute start.");
 			sb.append("prepay_id\n" + result.get("prepay_id") + "\n\n");
 			resultunifiedorder = result;
 			genPayReq(currentCallbackContext);
-
+			Log.d(TAG, "GetPrepayIdTask.onPostExecute end.");
 		}
 
 		@Override
@@ -651,17 +662,20 @@ public class Wechat extends CordovaPlugin {
 		@Override
 		protected Map<String, String> doInBackground(JSONObject... params) {
 
+			Log.d(TAG, "GetPrepayIdTask.doInBackground start.");
 			String url = String.format("https://api.mch.weixin.qq.com/pay/unifiedorder");
 			String entity = genProductArgs(params[0], currentCallbackContext);
 			byte[] buf = Util.httpPost(url, entity);
 			String content = new String(buf);
 			Map<String, String> xml = decodeXml(content);
+			Log.d(TAG, "GetPrepayIdTask.doInBackground end.");
 
 			return xml;
 		}
 	}
 
 	private String genProductArgs(JSONObject json, final CallbackContext callbackContext) {
+		Log.d(TAG, "genProductArgs start.");
 		StringBuffer xml = new StringBuffer();
 
 		try {
@@ -684,9 +698,11 @@ public class Wechat extends CordovaPlugin {
 
 			String xmlstring = toXml(packageParams);
 
+			Log.d(TAG, "genProductArgs end.");
 			return xmlstring;
 
 		} catch (Exception e) {
+			Log.e(TAG, "genProductArgs error", e.fillInStackTrace());
 			return null;
 		}
 
@@ -723,6 +739,7 @@ public class Wechat extends CordovaPlugin {
 	}
 
 	private String toXml(List<NameValuePair> params) {
+		Log.d(TAG, "toXml Start.");
 		StringBuilder sb = new StringBuilder();
 		sb.append("<xml>");
 		for (int i = 0; i < params.size(); i++) {
@@ -733,7 +750,8 @@ public class Wechat extends CordovaPlugin {
 		}
 		sb.append("</xml>");
 
-		Log.e("orion", sb.toString());
+		Log.d(TAG, sb.toString());
+		Log.d(TAG, "toXml end.");
 		return sb.toString();
 	}
 
@@ -765,7 +783,7 @@ public class Wechat extends CordovaPlugin {
 
 			return xml;
 		} catch (Exception e) {
-			Log.e("orion", e.toString());
+			Log.e(TAG, e.toString());
 		}
 		return null;
 
