@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xu-li/cordova-plugin-wechat.git"
+    "url": "git+https://github.com/SongJuDaShi/cordova-plugin-wechat-g.git"
   },
   "keywords": [
     "cordova",
@@ -28,10 +28,10 @@
       "version": ">=3.5.0"
     }
   ],
-  "author": "xu.li <AthenaLightenedMyPath@gmail.com>",
+  "author": "dashi.songju <AthenaLightenedMyPath@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/xu-li/cordova-plugin-wechat/issues"
+    "url": "https://github.com/SongJuDaShi/cordova-plugin-wechat-g/issues"
   },
-  "homepage": "https://github.com/xu-li/cordova-plugin-wechat#readme"
+  "homepage": "https://github.com/SongJuDaShi/cordova-plugin-wechat-g#readme"
 }
