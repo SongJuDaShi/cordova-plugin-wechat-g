@@ -51,7 +51,7 @@ public class Wechat extends CordovaPlugin {
 
 	public static final String TAG = "Cordova.Plugin.Wechat";
 
-	public static final String WEIXIN_APP_ID = "wx1611845a4dc9b397";
+	public static final String WEIXIN_APP_ID = "wxd8e281a741c2b43a";
 	public static final String WEIXIN_MCH_ID = "1262631501";
 	public static final String WEIXIN_API_KEY = "gouxinpaysecret20150612gouxinpay";
 
